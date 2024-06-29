@@ -4,7 +4,7 @@ import axios from "axios";
 import "../styles.css";
 import toast from "react-hot-toast";
 
-const Login = () => {
+const   Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
