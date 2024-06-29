@@ -51,3 +51,5 @@ function ShowDocuments() {
         </div>
     );
 }
+
+export default ShowDocuments;
