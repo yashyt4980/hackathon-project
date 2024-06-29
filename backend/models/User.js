@@ -16,7 +16,11 @@ const UserSchema = new mongoose.Schema({
     },
     documents: [{
         type: mongoose.Schema.Types.ObjectId, ref: "Document"
-    }]
+    }],
+    role: {
+        type: String,
+        default: 'user'
+    }
 }, { timestamps: true });
 
 const UserModel = mongoose.model('User', UserSchema);

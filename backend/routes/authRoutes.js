@@ -20,6 +20,7 @@ router.post("/register", async (req, res) => {
         name: req.body.name,
         email: req.body.email,
         password: hashedPassword,
+        role: req.body.role,
       });
       
       const user = await newUser.save();
@@ -41,14 +42,14 @@ router.post("/login", async (req, res) => {
         if (!validUser) {
             return res.json({ message: 'User not found' });
         }
-
+        const role = validUser.role;
         const validPassword = await bcrypt.compare(password, validUser.password);
         if (!validPassword) {
             return res.json({ message: 'Invalid Credentials' });
         }
 
         const { _id, password: hashedPassword, ...userInfo } = validUser._doc;
-        const token = jwt.sign({ id: _id }, process.env.JWT_SECRET);
+        const token = jwt.sign({ id: _id, role }, process.env.JWT_SECRET);
         // console.log('Generated token', token);
         // console.log('userInfo : ', userInfo);
         return res.cookie('jwt', token, { httpOnly: true }).status(200).json({ token: token, user: validUser._doc});
