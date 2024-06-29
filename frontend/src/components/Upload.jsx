@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useInRouterContext, useNavigate } from 'react-router-dom';
 
 const Upload = () => {
+  const navigate = useNavigate();
   const [text, setText] = useState('');
   const [response, setResponse] = useState('');
 
@@ -41,6 +43,10 @@ const Upload = () => {
         <button type="submit">Upload</button>
       </form>
       <div>{response}</div>
+      <button onClick={() => {
+        navigator.clipboard.writeText(response);
+        navigate("/createDocument");
+      }}>Copy text and edit in collaboration</button>
     </div>
   );
 };
