@@ -22,7 +22,7 @@ const Login = () => {
           toast.success("Login successful!");
           const role = result.data.user.role;
           console.log(role);
-          if (role === "reader") {
+          if(role === "reader") {
             navigate("/showDocs");
           } else navigate("/uploads");
         } else if (result.data.message === "User not found") {

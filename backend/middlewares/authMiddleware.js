@@ -17,14 +17,16 @@ const protect = asyncHandler(async (req, res, next) => {
       // console.log(decoded);
       // console.log(decoded);
       const _id = decoded.id;
-      const cache_data = await redis.get(_id);
-      if (cache_data) {
-        req.user = cache_data;
-      } else {
-        const user = await USER.findOne({ _id }).select();
-        req.user = user;
-        await redis.set("user", JSON.stringify(user));
-      }
+      const user = await USER.findOne({ _id }).select();
+      req.user = user;
+      // const cache_data = await redis.get(_id);
+      // if (cache_data) {
+      //   req.user = cache_data;
+      // } else {
+      //   const user = await USER.findOne({ _id }).select();
+      //   req.user = user;
+      //   await redis.set(_id, JSON.stringify(user));
+      // }
       // console.log(req.user);
       next();
     } catch {

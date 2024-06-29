@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Upload from "./Upload";
 import TextEditor from "./TextEditor";
 import { v4 as uuidV4 } from "uuid";
-
+import ShowDocuments from "./ShowDocuments";
 function App() {
   return (
     <div>
@@ -16,6 +16,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/home" element={<Home />} />
           <Route path="/uploads" element={<Upload />} />
+          <Route path="/showDocs" element={<ShowDocuments />} />
           <Route
             path="/createDocument"
             element={<Navigate to={`/documents/${uuidV4()}`} />}
