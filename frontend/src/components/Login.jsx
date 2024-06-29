@@ -4,7 +4,7 @@ import axios from "axios";
 import "../styles.css";
 import toast from "react-hot-toast";
 
-const   Login = () => {
+const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -19,15 +19,15 @@ const   Login = () => {
         if (result.data.token) {
           console.log("Login Success");
           localStorage.setItem("user__token", result.data.token);
-          toast.success("login success");
+          toast.success("Login successful!");
           const role = result.data.user.role;
           console.log(role);
-          if(role === "reader") {
+          if (role === "reader") {
             navigate("/showDocs");
           } else navigate("/uploads");
         } else if (result.data.message === "User not found") {
           toast.error("User not found. Please register first.");
-          navigate("/register"); // Redirect to the registration page
+          navigate("/register");
         } else {
           toast.error("Incorrect password! Please try again.");
         }
@@ -36,44 +36,50 @@ const   Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-content">
-        <h2 className="login-heading">Login</h2>
+    <div className="flex justify-center items-center h-screen">
+      <div className="max-w-md w-full bg-white p-8 rounded shadow-lg">
+        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="email">
-              <b>Email</b>
+          <div className="mb-4">
+            <label htmlFor="email" className="block text-sm font-bold mb-2">
+              Email
             </label>
             <input
               type="email"
-              className="form-control"
               id="email"
               placeholder="Enter Email"
+              className="w-full p-2 border border-gray-300 rounded"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
-          <div className="form-group">
-            <label className="form-label" htmlFor="password">
-              <b>Password</b>
+          <div className="mb-4">
+            <label htmlFor="password" className="block text-sm font-bold mb-2">
+              Password
             </label>
             <input
               type="password"
-              className="form-control"
               id="password"
               placeholder="Enter Password"
+              className="w-full p-2 border border-gray-300 rounded"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type="submit" className="btn btn-primary">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+          >
             Login
           </button>
         </form>
-        <p className="register-link">
-          Don't have an account? <Link to="/register">Register</Link>
+        <p className="mt-4 text-center">
+          Don't have an account?{" "}
+          <Link to="/register" className="text-blue-500 hover:underline">
+            Register
+          </Link>
         </p>
       </div>
     </div>
