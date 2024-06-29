@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const User = require('../models/User');
 const bcrypt = require("bcrypt");
+const { redisClient } = require("../client/redis_client");
+
 const jwt = require("jsonwebtoken");
 require('dotenv').config();
 
@@ -47,7 +49,9 @@ router.post("/login", async (req, res) => {
         if (!validPassword) {
             return res.json({ message: 'Invalid Credentials' });
         }
-
+        await redisClient.set(validUser._id, JSON.stringify(validUser));
+        await redisClient.expire(validUser._id,3600);
+      
         const { _id, password: hashedPassword, ...userInfo } = validUser._doc;
         const token = jwt.sign({ id: _id, role }, process.env.JWT_SECRET);
         // console.log('Generated token', token);
