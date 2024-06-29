@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     }],
     role: {
         type: String,
-        default: 'user'
+        default: 'reader'
     }
 }, { timestamps: true });
 

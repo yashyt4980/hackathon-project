@@ -3,6 +3,7 @@ const { extractData } = require("../services/extractTextPdf");
 const { OCRPDF } = require("../services/ocr");
 const { enrich } = require("../services/textEnrich");
 const User = require('../models/User');
+const Document = require('../models/Document');
 
 const extractText = async (req, res) => {
   const url = req.body.url;
@@ -100,6 +101,53 @@ const saveDocumentDb = async (req, res) => {
   }
 };
 
-module.exports = { extractText, enrichText, saveDocumentDb };
+const getDocumentsOfUser = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId).populate('documents');
+    if (!user) {
+      return res.status(404).send({
+        ok: false,
+        status: 404,
+        message: "User not found!",
+      });
+    }
+    const documents = user.documents;
+    res.send({
+      ok: true,
+      status: 200,
+      documents,
+    });
+  } catch (error) {
+    res.status(500).send({
+      ok: false,
+      status: 500,
+      message: "Internal Server Error!",
+    });
+  }
+};
+
+const getDocuments = async (req, res) => {
+  try {
+    const documents = await Document.find();
+    res.send({
+      ok: true,
+      status: 200,
+      documents,
+    });
+  } catch (error) {
+    res.status(500).send({
+      ok: false,
+      status: 500,
+      message: "Internal Server Error!",
+    });
+  }
+};
+
+module.exports = { extractText, enrichText, saveDocumentDb, getDocumentsOfUser, getDocuments };
+
+// module.exports = { extractText, enrichText, saveDocumentDb, getDocumentsOfUser };
+
+// module.exports = { extractText, enrichText, saveDocumentDb };
 
 
