@@ -40,10 +40,10 @@ const extractText = async (req, res) => {
 const enrichText = async (req, res) => {
   const textInp = req.body.text;
   // const email = req.body.user.email;
-  console.log(req.user.email);
+  // console.log(req.user.email);
   try {
     const enrichedText = await enrich(textInp,req.user.email);
-    console.log("out", enrichedText);
+    // console.log("out", enrichedText);
     res.send({
       ok: true,
       status: 200,
@@ -58,6 +58,48 @@ const enrichText = async (req, res) => {
   }
 }
 
+const saveDocumentDb = async (req, res) => {
+  const documentId = req.body.documentId;
+  const userId = req.user._id;
+  // console.log(documentId, userId);
+  try {
+    const user = await User.findById({_id:userId});
+    // console.log(user);
+    if (!user) {
+      // console.log("Ok");
+      return res.status(404).send({
+        ok: false,
+        status: 404,
+        message: "User not found!",
+      });
+    }
+
+    if (user.documents.includes(documentId)) {
+      return res.send({
+        ok: true,
+        status: 200,
+        message: "Document already exists for this user.",
+      });
+    }
+    user.documents.push(documentId);
+    // console.log(user);
+    
+    await user.save();
+
+    res.send({
+      ok: true,
+      status: 200,
+      message: "Document saved successfully.",
+    });
+  } catch (error) {
+    res.status(500).send({
+      ok: false,
+      status: 500,
+      message: "Internal Server Error!",
+    });
+  }
+};
+
+module.exports = { extractText, enrichText, saveDocumentDb };
 
 
-module.exports = { extractText, enrichText };
