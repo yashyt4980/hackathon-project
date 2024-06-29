@@ -10,8 +10,8 @@ async function enrich(inp, email) {
   }
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
   const prompt = `
-  ${inp}
-  Please generate a short story based on above context 
+  Please generate a very short story on the following text:
+  ${inp} 
   `;
   const result = await model.generateContent(prompt);
   const response = await result.response;

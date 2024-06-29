@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ShowDocs = ({ documentId, content }) => {
+const Document = ({ documentId, content }) => {
     return (
         <div className="card">
             <p>{content}</p>
@@ -8,4 +8,4 @@ const ShowDocs = ({ documentId, content }) => {
     );
 };
 
-export default ShowDocs;
+export default Document;

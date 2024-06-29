@@ -22,6 +22,7 @@ export default function TextEditor() {
  const{id:documentId}=useParams();
  const [socket, setSocket] = useState()
  const [quill, setQuill] = useState()
+
   useEffect(() => {
     async function saveDb() {
       const data = await axios.post(`${import.meta.env.VITE_SERVER}api/saveDb`, {
@@ -116,5 +117,8 @@ useEffect(() => {
 
 }, [])
 
-return <div className="container" ref={wrapperRef}></div>
+return (<p>
+  {/* <button onClick={fetchUsers}>Fetch Users</button> */}
+  <div className="container" ref={wrapperRef}></div>
+</p>);
 }

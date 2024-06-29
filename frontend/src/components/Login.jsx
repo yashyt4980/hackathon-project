@@ -20,7 +20,11 @@ const   Login = () => {
           console.log("Login Success");
           localStorage.setItem("user__token", result.data.token);
           toast.success("login success");
-          navigate("/uploads");
+          const role = result.data.user.role;
+          console.log(role);
+          if(role === "reader") {
+            navigate("/showDocs");
+          } else navigate("/uploads");
         } else if (result.data.message === "User not found") {
           toast.error("User not found. Please register first.");
           navigate("/register"); // Redirect to the registration page
