@@ -22,19 +22,19 @@ export default function TextEditor() {
  const{id:documentId}=useParams();
  const [socket, setSocket] = useState()
  const [quill, setQuill] = useState()
-  // useEffect(() => {
-  //   async function saveDb() {
-  //     const data = await axios.post("http://localhost:5000/user/saveDb", {
-  //       id,
-  //     }, 
-  //   {
-  //     headers: {
-  //       Authorization: "Bearer " + localStorage.getItem("user__token"),
-  //     },
-  //   });
-  //   };
-  //   saveDb();
-  // })
+  useEffect(() => {
+    async function saveDb() {
+      const data = await axios.post(`${import.meta.env.VITE_SERVER}api/saveDb`, {
+        documentId,
+      }, 
+    {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("user__token"),
+      },
+    });
+    };
+    saveDb();
+  }, [documentId])
 
  useEffect(() => {
    const s=io(`${import.meta.env.VITE_SOCKET}`)
